@@ -7,11 +7,14 @@ import java.util.ArrayList;
 public class CheckoutSystem {
     int oranges, apples;
     double total;
+    boolean offerApples, offerOranges;
 
     final int APPLE_PRICE = 60;
     final int ORANGE_PRICE = 25;
     final double PENCE_TO_POUND = (double) 1/100;
     final String POUND_UNICODE = "\u00A3";
+    final double OFFER_APPLES = (double) 1/2;
+    final double OFFER_ORANGES = (double) 2/3;
 
     /**
      * Executes checkout for provided state of shopping cart
@@ -26,10 +29,14 @@ public class CheckoutSystem {
                 oranges++;
             else if(item.equalsIgnoreCase("apple"))
                 apples++;
+            else if(item.equalsIgnoreCase("offer_apples"))
+                offerApples = true;
+            else if(item.equalsIgnoreCase("offer_oranges"))
+                offerOranges = true;
         }
 
-        double applesPrice = apples*APPLE_PRICE;
-        double orangesPrice = oranges*ORANGE_PRICE;
+        double applesPrice = offerApples ? apples*APPLE_PRICE*OFFER_APPLES : apples*APPLE_PRICE;
+        double orangesPrice = offerOranges ? oranges*ORANGE_PRICE*OFFER_ORANGES : oranges*ORANGE_PRICE;
         total = total + applesPrice + orangesPrice;
 
         print();
@@ -46,11 +53,12 @@ public class CheckoutSystem {
     }
 
     /**
-     * Initializes variables where item counts and final price are stored
+     * Initializes variables where item counts, final price, and presence of offers are stored
      */
     private void init() {
         oranges = apples = 0;
         total = 0;
+        offerApples = offerOranges = false;
     }
 
 }
